@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Right Form Master</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F6EF;--card:#fff;--ink:#12251D;--mut:#5B6B63;--g:#0B6B4F;--g2:#0E8F68;--r:#E2433B;--y:#F2B632;--line:#DDE4DA;--ok:#DDF4E7;--no:#FCE4E2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0D1A14;--card:#16281F;--ink:#EAF3EC;--mut:#9DB3A6;--line:#27402F;--ok:#12432E;--no:#4A1E1B}}
+:root[data-theme="dark"]{--bg:#0D1A14;--card:#16281F;--ink:#EAF3EC;--mut:#9DB3A6;--line:#27402F;--ok:#12432E;--no:#4A1E1B}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:500 17px/1.6 'Hind Siliguri',system-ui,sans-serif}
+#app{max-width:760px;margin:auto;padding:14px 14px 90px}
+.hero{background:linear-gradient(135deg,#0B6B4F,#0A4A3A);color:#fff;border-radius:24px;padding:20px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:var(--r);opacity:.9}
+.hero h1{margin:0;font-size:30px;position:relative;z-index:1}.hero p{margin:2px 0 14px;opacity:.9;position:relative;z-index:1}
+.stats{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}
+.chip{background:rgba(255,255,255,.16);border-radius:99px;padding:4px 12px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.btn{border:0;border-radius:18px;padding:14px;background:var(--card);color:var(--ink);font:inherit;font-weight:700;text-align:left;cursor:pointer;box-shadow:0 2px 0 var(--line);border:2px solid var(--line);transition:transform .12s}
+.btn:active{transform:scale(.97)}.btn small{display:block;font-weight:500;color:var(--mut);font-size:14px}
+.btn:focus-visible,.opt:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.btn.p{background:var(--g);color:#fff;border-color:var(--g);text-align:center;font-size:18px}
+.btn.dis{opacity:.55}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:18px;margin:12px 0}
+h2{margin:6px 0}h3{margin:12px 0 4px}
+.bar{height:12px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--g2),var(--y));border-radius:9px;transition:width .4s}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-weight:700}.top .bar{flex:1}
+.q{font-size:25px;line-height:1.4;font-weight:700;margin:6px 0 14px}
+.opt{display:block;width:100%;margin:8px 0;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:19px;font-weight:600;text-align:left;cursor:pointer}
+.opt:hover{border-color:var(--g2)}.opt.ok{background:var(--ok);border-color:var(--g2)}.opt.no{background:var(--no);border-color:var(--r);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{border-radius:18px;padding:14px;margin-top:12px}.fb.ok{background:var(--ok)}.fb.no{background:var(--no)}
+.fb b.t{font-size:20px}.tag{display:inline-block;background:var(--y);color:#3a2a00;border-radius:8px;padding:0 8px;font-weight:700;margin:2px 0}
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:2px solid var(--line);display:flex;justify-content:center;gap:4px;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+.nav button{flex:1;max-width:120px;background:none;border:0;color:var(--mut);font:inherit;font-size:13px;font-weight:700;padding:6px;border-radius:12px;cursor:pointer}.nav button.on{color:var(--g);background:var(--ok)}
+.pill{padding:2px 10px;border-radius:99px;font-size:14px;font-weight:700;background:var(--line)}
+.pop{animation:pop .4s}@keyframes pop{50%{transform:scale(1.12)}}
+.cf{position:fixed;top:-30px;font-size:24px;animation:fall 2.4s linear forwards;pointer-events:none}@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.note{background:var(--no);border-radius:14px;padding:10px 14px;font-size:15px}
+</style></head><body><div id="app"></div>
+<nav class="nav" aria-label="Main"><button data-v="home">🏠<br>Home</button><button data-v="rules">📚<br>Rules</button><button data-v="mist">🧠<br>Mistakes</button><button data-v="prog">📊<br>Progress</button></nav>
+<script>
+// [cat, ruleKey, diff(1-3), question, options, answerIdx, bangla meaning, why (bn), exam tip]
+const Q=[
+["Basic","s_es",1,"He ___ to school every day.",["go","goes","went","going"],1,"সে প্রতিদিন স্কুলে যায়।","Subject = He, আর every day মানে Present Indefinite। He/She/It-এর পরে Verb-এর সাথে s/es বসে।","every day, usually, always, often দেখলে Present Indefinite ভাবো।"],
+["Basic","s_es",1,"The sun ___ in the east.",["rise","rises","rose","rising"],1,"সূর্য পূর্ব দিকে ওঠে।","সূর্য ওঠা চিরন্তন সত্য। চিরসত্য Present Indefinite-এ হয়, আর The sun = It, তাই rises।","চিরসত্য/অভ্যাস → Present Indefinite।"],
+["Basic","past",1,"She ___ her homework yesterday.",["do","does","did","done"],2,"সে গতকাল তার হোমওয়ার্ক করেছিল।","yesterday মানে অতীত সময়। অতীতে do-এর Past Form হলো did।","yesterday, ago, last year → Past Indefinite (V2)।"],
+["Tense","future",1,"Rahim ___ to Dhaka tomorrow.",["went","has gone","will go","going"],2,"রহিম আগামীকাল ঢাকায় যাবে।","tomorrow ভবিষ্যৎ বোঝায়। ভবিষ্যতে shall/will + V1 বসে।","tomorrow, next week → will + V1।"],
+["Tense","prog",1,"They are ___ football now.",["play","played","playing","plays"],2,"তারা এখন ফুটবল খেলছে।","now মানে এই মুহূর্তে চলছে। am/is/are-এর পরে V-ing বসলে Present Continuous হয়।","now, at this moment → am/is/are + V-ing।"],
+["Tense","prog",2,"The boy was ___ the road when the car hit him.",["cross","crossing","crossed","crosses"],1,"গাড়ি যখন তাকে ধাক্কা দিল, ছেলেটি তখন রাস্তা পার হচ্ছিল।","'when' দিয়ে একটি কাজ চলছিল, তখন আরেকটি ঘটল। চলমান কাজে was/were + V-ing।","দুই কাজের একটি চলমান হলে was/were + V-ing।"],
+["Tense","perfprog",2,"He has been ___ since morning.",["read","reads","reading","readed"],2,"সে সকাল থেকে পড়ছে।","since + সময়ের শুরু দেখলে has/have been + V-ing বসে।","since/for + চলমান কাজ → has/have been + V-ing।"],
+["Auxiliary","did",1,"Did he ___ to school?",["went","go","gone","going"],1,"সে কি স্কুলে গিয়েছিল?","Did-এর পরে সবসময় Verb-এর মূল রূপ (V1) বসে। তাই went নয়, go।","Did/Does/Do-এর পরে সবসময় V1।"],
+["Auxiliary","did",1,"He did not ___ the exam hall.",["enter","entered","enters","entering"],0,"সে পরীক্ষার হলে ঢোকেনি।","did not-এর পরে V1 বসে। Past-এর ভাব did-এর মধ্যেই আছে, তাই entered হবে না।","did not + V1।"],
+["Auxiliary","perf",1,"He has ___ the work.",["do","did","done","doing"],2,"সে কাজটি শেষ করেছে।","has/have/had-এর পরে Verb-এর তৃতীয় রূপ (V3) বসে। do-এর V3 = done।","has/have/had + V3।"],
+["Auxiliary","pastperf",3,"The birds ___ before we reached the spot.",["fly","flew","had flown","flies"],2,"আমরা জায়গাটিতে পৌঁছানোর আগেই পাখিরা উড়ে গিয়েছিল।","অতীতের দুই কাজের যেটি আগে ঘটেছে সেটিতে had + V3। উড়ে যাওয়া আগে ঘটেছে।","before/after দিয়ে দুই অতীত কাজ → আগেরটিতে had + V3।"],
+["Modal","modal",1,"We should ___ our environment.",["protect","protects","protected","protecting"],0,"আমাদের পরিবেশ রক্ষা করা উচিত।","should একটি Modal। can/could/may/should/must-এর পরে সবসময় V1 বসে।","Modal + V1, কখনো s/es বা ed নয়।"],
+["Gerund","to_inf",1,"He wants ___ a doctor.",["be","to be","being","been"],1,"সে ডাক্তার হতে চায়।","want, hope, decide, try-এর পরে to + V1 (Infinitive) বসে।","want/hope/decide/plan + to + V1।"],
+["Gerund","prep_ing",1,"She is fond of ___ songs.",["sing","sang","singing","to sing"],2,"সে গান গাইতে ভালোবাসে।","Preposition (of)-এর পরে Verb থাকলে V-ing হয়।","Preposition + V-ing।"],
+["Gerund","by_ing",2,"By ___ regularly, you can improve your health.",["exercise","exercising","exercised","to exercise"],1,"নিয়মিত ব্যায়াম করে তুমি স্বাস্থ্যের উন্নতি করতে পারো।","by একটি Preposition, তাই এর পরে V-ing।","by/without/of/in/for + V-ing।"],
+["Gerund","by_ing",2,"Without ___ hard, no one can succeed.",["work","working","worked","to work"],1,"কঠোর পরিশ্রম ছাড়া কেউ সফল হতে পারে না।","without একটি Preposition। Preposition-এর পরে V-ing বসে।","without + V-ing।"],
+["Special","lookfwd",2,"I am looking forward to ___ you soon.",["meet","meeting","met","meets"],1,"আমি শীঘ্রই তোমার সাথে দেখা করার অপেক্ষায় আছি।","look forward to-এর 'to' আসলে Preposition, তাই V-ing বসে।","look forward to / object to / get used to + V-ing।"],
+["Special","hightime",2,"It is high time we ___ more trees.",["plant","planted","planting","will plant"],1,"আমাদের এখন আরও গাছ লাগানোর সময় হয়েছে।","It is high time-এর পরে Subject + Verb-এর Past Form (V2) বসে।","It is (high) time + subject + V2।"],
+["Special","better",1,"You had better ___ early.",["leave","to leave","left","leaving"],0,"তোমার তাড়াতাড়ি রওনা দেওয়া উচিত।","had better-এর পরে to ছাড়া V1 বসে।","had better / would rather + V1।"],
+["Special","rather",1,"I would rather ___ at home today.",["stay","to stay","stayed","staying"],0,"আজ আমি বরং বাড়িতেই থাকতে চাই।","would rather-এর পরে V1 বসে, to বসে না।","would rather + V1।"],
+["Special","usedto",2,"He used to ___ in the village.",["live","lives","lived","living"],0,"সে গ্রামে থাকত।","used to (অতীত অভ্যাস)-এর পরে V1 বসে। (be used to হলে V-ing হতো।)","used to + V1, কিন্তু be used to + V-ing।"],
+["Conditional","cond1",2,"If it rains, we ___ at home.",["stay","will stay","stayed","would stay"],1,"বৃষ্টি হলে আমরা বাড়িতে থাকব।","If-clause-এ Present থাকলে main clause-এ will + V1 বসে (সম্ভাব্য শর্ত)।","If + V1/V-s, ... will + V1।"],
+["Conditional","cond2",3,"If I were a bird, I ___ fly to you.",["can","will","would","shall"],2,"আমি পাখি হলে তোমার কাছে উড়ে যেতাম।","If-clause-এ were/V2 থাকলে (অবাস্তব কল্পনা) main clause-এ would + V1 বসে।","If + V2/were, ... would + V1।"],
+["Passive","passive",2,"The letter was ___ by him.",["write","wrote","written","writing"],2,"চিঠিটি তার দ্বারা লেখা হয়েছিল।","Passive Voice-এ be (was) + V3 বসে। write-এর V3 = written।","by দেখলে Passive; be + V3।"]
+];
+const RULES={s_es:["He/She/It + V-s/es","Present Indefinite-এ Third Person Singular Subject-এর পরে Verb-এর শেষে s/es বসে।","He goes to school.","He go ✗"],
+past:["Past time + V2","yesterday/ago/last দেখলে Verb-এর Past Form বসে।","She did her work.","She do her work ✗"],
+future:["will/shall + V1","ভবিষ্যৎ বোঝালে will/shall-এর পরে V1 বসে।","He will go.","He will went ✗"],
+prog:["am/is/are/was/were + V-ing","কাজ চলমান থাকলে V-ing বসে।","They are playing.","They are play ✗"],
+perfprog:["has/have been + V-ing","since/for সহ চলমান কাজে ব্যবহার হয়।","He has been reading.","He has been read ✗"],
+did:["do/does/did + V1","Do/Does/Did-এর পরে সবসময় V1।","Did he go?","Did he went? ✗"],
+perf:["has/have/had + V3","Perfect Tense-এ Verb-এর তৃতীয় রূপ বসে।","He has done it.","He has did it ✗"],
+pastperf:["had + V3","অতীতের দুই কাজের আগেরটিতে had + V3।","The train had left.","The train has left (before) ✗"],
+modal:["Modal + V1","can/could/may/might/should/must/will/would-এর পরে V1।","We should protect it.","We should protects ✗"],
+to_inf:["to + V1","want/hope/decide/try ইত্যাদির পরে to + V1।","He wants to go.","He wants going ✗"],
+prep_ing:["Preposition + V-ing","Preposition-এর পরে Verb থাকলে V-ing।","fond of singing","fond of sing ✗"],
+by_ing:["by/without + V-ing","by, without, of, in, for-এর পরে V-ing।","by working hard","by work hard ✗"],
+lookfwd:["look forward to + V-ing","এখানে to একটি Preposition।","looking forward to meeting","looking forward to meet ✗"],
+hightime:["It is high time + V2","উচিত সময় পেরিয়ে যাচ্ছে বোঝাতে Past Form।","It is high time we planted.","high time we plant ✗"],
+better:["had better + V1","পরামর্শ দিতে; to বসে না।","You had better go.","had better to go ✗"],
+rather:["would rather + V1","পছন্দ বোঝাতে; to বসে না।","I would rather stay.","would rather to stay ✗"],
+usedto:["used to + V1","অতীতের অভ্যাস।","He used to live there.","He used to living ✗"],
+cond1:["If + V1, will + V1","সম্ভাব্য শর্তে (Type 1)।","If it rains, we will stay.","If it will rain ✗"],
+cond2:["If + V2/were, would + V1","কল্পনা বা অবাস্তব শর্তে (Type 2)।","If I were a bird, I would fly.","If I was ... will fly ✗"],
+passive:["be + V3","Passive Voice-এ কাজের গুরুত্ব বেশি; be-র পরে V3।","The letter was written.","The letter was wrote ✗"]};
+const MSG=["Great job!","Excellent!","You're getting stronger!","Almost perfect!","Grammar Master! 🏆"];
+const $=s=>document.querySelector(s),app=$('#app');
+let S={xp:0,coins:0,streak:0,days:0,last:'',st:{},mist:{},best:0,runs:[]},R=null,view='home',tm=null;
+try{const x=localStorage.getItem('rfm');if(x)S=Object.assign(S,JSON.parse(x))}catch(e){}
+const save=()=>{try{localStorage.setItem('rfm',JSON.stringify(S))}catch(e){}};
+const lvl=()=>Math.floor(S.xp/200)+1;
+const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const day=()=>new Date().toISOString().slice(0,10);
+function mastery(k){const s=S.st[k];if(!s)return null;return Math.round(s.c/s.t*100)}
+function mlabel(p){return p==null?'নতুন':p<=30?'Beginner 🔴':p<=60?'Learning 🟡':p<=80?'Good 🟢':p<=95?'Strong 🔵':'Master 👑'}
+function head(){return `<div class="hero"><h1>Right Form Master 🎯</h1><p>SSC &amp; Dakhil Grammar Challenge</p><div class="stats"><span class="chip">👤 Student</span><span class="chip">⭐ ${S.xp} XP</span><span class="chip">🔥 ${S.days} দিন</span><span class="chip">🏆 Level ${lvl()}</span><span class="chip">🪙 ${S.coins}</span></div></div>`}
+function home(){view='home';stop();app.innerHTML=head()+`<div class="grid">
+<button class="btn p" data-a="quick">🎮 Quick Play<small style="color:#dff">১০টি প্রশ্ন · ৫ ❤️</small></button>
+<button class="btn" data-a="daily">🎯 Daily Challenge<small>${S.last===day()?'আজকের কাজ শেষ ✅':'১০টি প্রশ্ন + বোনাস XP'}</small></button>
+<button class="btn" data-a="time">⚡ Time Attack<small>প্রতি প্রশ্নে ১৫ সেকেন্ড</small></button>
+<button class="btn" data-a="surv">💀 Survival<small>৩ ❤️, ক্রমশ কঠিন</small></button>
+<button class="btn" data-a="exam">📝 SSC Exam Mode<small>২০ প্রশ্ন · ১৫ মিনিট · শেষে ফল</small></button>
+<button class="btn" data-a="rules">📚 Learn Rules<small>${Object.keys(RULES).length}টি Rule</small></button>
+<button class="btn" data-a="mist">🧠 Mistake Review<small>${Object.keys(S.mist).length}টি ভুল জমা</small></button>
+<button class="btn" data-a="prog">📊 My Progress<small>Weak area ও Mastery</small></button>
+</div><div class="card"><h3>📖 Board Challenge</h3><div class="note">এখনও যাচাই করা (verified) Board প্রশ্ন যোগ করা হয়নি। অনুমান করে বানানো প্রশ্ন Board Question হিসেবে দেখানো হবে না। প্রশ্নের সূত্র (Board, সাল, উত্তর) নিশ্চিত হলে তবেই এখানে যুক্ত হবে।</div></div>
+<p style="color:var(--mut);font-size:15px">🏆 Best Streak: ${S.best} · Level-এর জন্য প্রতি ২০০ XP।</p>`}
+function mkq(i,extra){const q=Q[i];const o=sh(q[4].map((t,k)=>({t,ok:k==q[5]})));return {i,o,q,extra}}
+function pick(n,f,wk){let ix=Q.map((_,i)=>i).filter(f||(()=>true));if(wk){ix=sh(ix).sort((a,b)=>(mastery(Q[a][1])??-1)-(mastery(Q[b][1])??-1)).slice(0,Math.ceil(ix.length*.7))}
+ ix=sh(ix);while(ix.length<n&&ix.length)ix=ix.concat(sh(ix));return ix.slice(0,n)}
+function start(mode,ids){stop();R={mode,qs:ids.map(i=>mkq(i)),n:0,lives:mode=='surv'?3:5,streak:0,bs:0,c:0,w:0,xp:0,ans:[],t0:Date.now(),done:false};if(mode=='exam'){R.end=Date.now()+900000;tm=setInterval(()=>{const l=Math.max(0,R.end-Date.now());const e=$('#clk');if(e)e.textContent=Math.floor(l/60000)+':'+String(Math.floor(l/1000)%60).padStart(2,'0');if(!l)finish()},500)}
+ view='play';ask()}
+function stop(){clearInterval(tm);tm=null}
+function ask(){if(R.n>=R.qs.length||R.lives<=0)return finish();const x=R.qs[R.n],q=x.q;R.picked=null;R.t=15;
+ const pct=R.n/R.qs.length*100;
+ app.innerHTML=`<div class="top"><button class="btn" data-a="home" aria-label="Exit" style="padding:6px 12px">✕</button><div class="bar" role="progressbar" aria-valuenow="${R.n}" aria-valuemax="${R.qs.length}"><i style="width:${pct}%"></i></div><span>${R.mode=='exam'?'⏱ <span id="clk">15:00</span>':'❤️'.repeat(Math.max(0,R.lives))}</span></div>
+ <div class="row"><span class="pill">${q[0]}</span><span class="pill">${['','🟢 Easy','🟡 Medium','🔴 Hard'][q[2]]}</span><span id="st">${R.streak>=3?'🔥 '+R.streak:''}</span><span>⭐ ${R.xp}</span></div>
+ ${R.mode=='time'?'<div class="bar" style="margin-top:8px"><i id="tb" style="width:100%;background:var(--r)"></i></div>':''}
+ <div class="card"><div class="q" lang="en">${q[3].replace('___','<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>')}</div><div id="opts" lang="en">${x.o.map((o,k)=>`<button class="opt" data-o="${k}">${'ABCD'[k]}. ${o.t}</button>`).join('')}</div><div id="fb"></div></div>`;
+ if(R.mode=='time'){clearInterval(tm);tm=setInterval(()=>{R.t-=.1;const b=$('#tb');if(b)b.style.width=Math.max(0,R.t/15*100)+'%';if(R.t<=0){clearInterval(tm);choose(-1)}},100)}}
+function choose(k){if(R.picked!==null)return;R.picked=k;clearInterval(tm);const x=R.qs[R.n],q=x.q,ok=k>=0&&x.o[k].ok,rk=q[1],exam=R.mode=='exam';
+ const right=x.o.findIndex(o=>o.ok);R.ans.push({i:x.i,k:k>=0?x.o[k].t:'—',ok,right:x.o[right].t});
+ S.st[rk]=S.st[rk]||{c:0,t:0};S.st[rk].t++;
+ let gain=0;
+ if(ok){S.st[rk].c++;R.c++;R.streak++;R.bs=Math.max(R.bs,R.streak);gain=[0,10,20,30][q[2]]+(R.mode=='time'?Math.round(R.t):0)+(R.streak%5==0?10:0);R.xp+=gain;S.coins+=2;
+  const m=S.mist[x.i];if(m){m.s++;m.due=Date.now()+[1,3,7][Math.min(m.s,3)-1]*864e5;if(m.s>=3)delete S.mist[x.i]}}
+ else{R.w++;R.streak=0;R.lives--;if(k>=0)R.xp+=2;S.mist[x.i]={s:0,due:Date.now()+864e5,pick:k>=0?x.o[k].t:'—'}}
+ save();
+ [...document.querySelectorAll('.opt')].forEach((b,j)=>{b.disabled=true;if(x.o[j].ok&&!exam)b.classList.add('ok');if(j==k)b.classList.add(exam?'':(ok?'ok':'no'))});
+ const nxt=`<button class="btn p" data-a="next" style="width:100%;margin-top:12px">${R.n+1>=R.qs.length||R.lives<=0?'ফলাফল দেখো':'পরের প্রশ্ন'}</button>`;
+ if(exam){R.n++;return ask()}
+ const r=RULES[rk],chosen=k>=0?x.o[k].t:null,full=q[3].replace('___',x.o[right].t);
+ $('#fb').innerHTML=`<div class="fb ${ok?'ok':'no'}" role="status"><b class="t">${ok?'🟢 CORRECT! '+MSG[Math.min(4,Math.floor(R.streak/5)+(R.streak>=3?1:0))]+(gain?' +'+gain+' XP':''):(k<0?'⏰ Time\'s Up!':'Not quite! 🤔')+' আবার চেষ্টা করলেই শিখবে'}</b>
+ <p><b>✅ Answer:</b> <span lang="en">${x.o[right].t}</span><br><span lang="en">${full}</span><br>🇧🇩 ${q[6]}</p>
+ <p><span class="tag">📌 Rule: ${r[0]}</span></p><p>🧠 <b>কেন?</b> ${q[7]}</p>
+ ${ok?'':`<p>❌ <b>তোমার উত্তর${chosen?` “<span lang="en">${chosen}</span>”`:''} কেন ভুল?</b> এখানে নিয়ম হলো <b lang="en">${r[0]}</b>। ${r[3]?'সাধারণ ভুল: <span lang="en">'+r[3]+'</span>':''}</p>`}
+ <p>🎯 <b>Exam Tip:</b> ${q[8]}</p><p>✏️ <b>Similar:</b> <span lang="en">${r[2]}</span></p>
+ <button class="btn" data-a="similar" style="margin-right:6px">🔁 Similar question</button><button class="btn" data-a="teach">📚 Teach me this rule</button>${nxt}</div>`;
+ if(ok&&R.streak%5==0&&R.streak)confetti(14);
+ const s=$('#st');if(s){s.textContent=R.streak>=3?'🔥 '+R.streak:'';s.classList.add('pop')}
+ $('#fb').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'nearest'})}
+function similar(){const x=R.qs[R.n],rk=x.q[1];const c=Q.map((_,i)=>i).filter(i=>Q[i][1]==rk&&i!=x.i);const i=c.length?c[Math.random()*c.length|0]:x.i;R.qs.splice(R.n+1,0,mkq(i));R.n++;ask()}
+function finish(){stop();if(!R)return;const n=R.ans.length,acc=n?Math.round(R.c/n*100):0;
+ if(R.mode=='daily'&&S.last!==day()){S.last=day();S.days++;R.xp+=50}
+ S.xp+=R.xp;S.best=Math.max(S.best,R.bs);S.runs.push({m:R.mode,a:acc,x:R.xp});S.runs=S.runs.slice(-30);save();view='res';
+ const rs={};R.ans.forEach(a=>{const k=Q[a.i][1];rs[k]=rs[k]||[0,0];rs[k][1]++;if(a.ok)rs[k][0]++});
+ const good=Object.keys(rs).filter(k=>rs[k][0]==rs[k][1]),weak=Object.keys(rs).filter(k=>rs[k][0]<rs[k][1]);
+ const mins=Math.floor((Date.now()-R.t0)/60000),sec=Math.floor((Date.now()-R.t0)/1000)%60;
+ app.innerHTML=`<div class="card"><h2>${acc>=80?'🎉 Excellent Work!':acc>=50?'👍 ভালো চেষ্টা!':'💪 চলো আবার চেষ্টা করি!'}</h2>
+ <p>Score: <b>${acc}%</b> · Correct: ${R.c}/${n} · Wrong: ${R.w}<br>XP: +${R.xp} ⭐ · Best Streak: ${R.bs} 🔥 · Time: ${mins}:${String(sec).padStart(2,'0')}</p>
+ <div class="bar"><i style="width:${acc}%"></i></div>
+ ${good.length?'<h3>You mastered</h3>'+good.map(k=>`✅ <span lang="en">${RULES[k][0]}</span><br>`).join(''):''}
+ ${weak.length?'<h3>Practice more</h3>'+weak.map(k=>`⚠️ <span lang="en">${RULES[k][0]}</span> <button class="btn" data-pr="${k}" style="padding:4px 10px">Practice</button><br>`).join(''):''}</div>
+ ${R.mode=='exam'?'<h2>প্রশ্নভিত্তিক বিশ্লেষণ</h2>'+R.ans.map((a,j)=>{const q=Q[a.i];return `<div class="card" style="border-color:${a.ok?'var(--g2)':'var(--r)'}"><b lang="en">${j+1}. ${q[3].replace('___','_____')}</b><br>তোমার উত্তর: <span lang="en">${a.k}</span> ${a.ok?'✅':'❌'}<br>সঠিক: <b lang="en">${a.right}</b> · <span class="tag" lang="en">${RULES[q[1]][0]}</span><br>🧠 ${q[7]}<br>🇧🇩 ${q[6]}</div>`}).join(''):''}
+ <button class="btn p" data-a="home" style="width:100%">🚀 Continue Learning</button>`;
+ if(acc>=80)confetti(24)}
+function confetti(n){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;for(let i=0;i<n;i++){const e=document.createElement('div');e.className='cf';e.textContent=['⭐','🎉','✨','🟢'][i%4];e.style.left=Math.random()*100+'vw';e.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),3200)}}
+function rules(){view='rules';stop();const by={};Q.forEach(q=>{(by[q[0]]=by[q[0]]||new Set()).add(q[1])});
+ app.innerHTML='<h2>📚 Rule Library</h2>'+Object.keys(by).map(c=>`<h3>${c}</h3>`+[...by[c]].map(k=>{const r=RULES[k],q=Q.find(q=>q[1]==k);return `<details class="card"><summary><b lang="en">${r[0]}</b> <span class="pill">${mlabel(mastery(k))}</span></summary><p>🧠 ${r[1]}</p><p>✏️ <span lang="en">${r[2]}</span><br>🇧🇩 ${q[6]}</p><p>⚠️ Common Mistake: <span lang="en">${r[3]}</span></p><p>🎯 ${q[8]}</p><button class="btn" data-pr="${k}">🎮 Practice</button></details>`}).join('')).join('')}
+function prog(){view='prog';stop();const ks=Object.keys(RULES),p=ks.map(k=>[k,mastery(k)]);const weak=p.filter(x=>x[1]!=null&&x[1]<60).sort((a,b)=>a[1]-b[1]);
+ app.innerHTML=`<h2>📊 My Progress</h2><div class="card"><b>Level ${lvl()}</b> · ${S.xp} XP<div class="bar"><i style="width:${S.xp%200/2}%"></i></div><small>পরের Level-এ ${200-S.xp%200} XP বাকি</small></div>
+ ${weak.length?`<div class="card"><h3>🔴 Weak Area</h3>${weak.map(w=>`<div class="row"><span lang="en">${RULES[w[0]][0]} (${w[1]}%)</span><button class="btn" data-pr="${w[0]}" style="padding:4px 10px">Practice This Rule</button></div>`).join('')}</div>`:''}
+ <div class="card"><h3>Rule Mastery</h3>${p.map(x=>`<div style="margin:8px 0"><div class="row"><span lang="en">${RULES[x[0]][0]}</span><span class="pill">${mlabel(x[1])}</span></div><div class="bar"><i style="width:${x[1]||0}%"></i></div></div>`).join('')}</div>
+ <div class="card"><h3>🏆 Achievements</h3>${[[S.xp>=100,'🥉 Verb Beginner'],[S.xp>=500,'🥈 Verb Explorer'],[S.xp>=1500,'🥇 Verb Master'],[S.best>=10,'🔥 10 Streak'],[S.runs.some(r=>r.a>=90),'🎯 90% Accuracy'],[S.days>=7,'👑 ৭ দিনের Streak']].map(a=>`<span class="pill" style="margin:3px;display:inline-block;opacity:${a[0]?1:.4}">${a[1]}</span>`).join('')}</div>
+ <div class="card"><h3>Leaderboard (এই ডিভাইসে)</h3>${S.runs.slice().sort((a,b)=>b.x-a.x).slice(0,5).map((r,i)=>`${i+1}. ${r.x} XP · ${r.a}% · ${r.m}<br>`).join('')||'এখনও কোনো খেলা নেই।'}</div>`}
+function mist(){view='mist';stop();const ids=Object.keys(S.mist);
+ app.innerHTML=`<h2>📕 My Mistakes</h2>`+(ids.length?`<button class="btn p" data-a="rev" style="width:100%">🔁 Practice Again (${ids.length})</button>`+ids.map(i=>{const q=Q[i],m=S.mist[i];return `<div class="card"><b lang="en">${q[3]}</b><br>তোমার উত্তর: <span lang="en">${m.pick}</span> ❌ · সঠিক: <b lang="en">${q[4][q[5]]}</b><br><span class="tag" lang="en">${RULES[q[1]][0]}</span><br>${q[7]}<br><small>Review ${m.s}/3 · ${Date.now()>=m.due?'এখন Review করো':'পরবর্তী: '+new Date(m.due).toLocaleDateString('bn-BD')}</small></div>`}).join(''):'<div class="card">কোনো ভুল জমা নেই। ভুল হলে এখানে নিজে নিজেই সেভ হবে 🎯</div>')}
+const A={quick:()=>start('quick',pick(10,0,1)),daily:()=>start('daily',pick(10)),time:()=>start('time',pick(10,0,1)),
+ surv:()=>start('surv',[...pick(8,i=>Q[i][2]==1),...pick(8,i=>Q[i][2]==2),...pick(8,i=>Q[i][2]==3)]),exam:()=>start('exam',pick(20)),
+ rev:()=>start('quick',Object.keys(S.mist).map(Number)),home,rules,prog,mist,next:()=>{R.n++;ask()},similar,
+ teach:()=>{const r=RULES[R.qs[R.n].q[1]];alert('📚 '+r[0]+'\n\n'+r[1]+'\n\n✅ '+r[2]+'\n'+r[3])}};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a],[data-o],[data-v],[data-pr]');if(!t)return;
+ if(t.dataset.o!=null)return choose(+t.dataset.o);
+ if(t.dataset.pr){const k=t.dataset.pr;return start('quick',pick(8,i=>Q[i][1]==k))}
+ if(t.dataset.v)return A[t.dataset.v]();
+ if(t.dataset.a=='home'&&R&&view=='play'&&!confirm('খেলা থেকে বের হবে?'))return;A[t.dataset.a]()});
+document.addEventListener('keydown',e=>{if(view=='play'&&R&&R.picked===null&&'1234'.includes(e.key)&&R.qs[R.n].o[+e.key-1])choose(+e.key-1);else if(view=='play'&&R&&R.picked!==null&&e.key=='Enter'&&R.mode!='exam'){const b=$('[data-a=next]');if(b&&document.activeElement.tagName!='BUTTON')b.click()}});
+home();
+</script></body></html>
